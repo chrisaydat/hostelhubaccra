@@ -8,6 +8,8 @@ import 'package:hostelhubaccra/features/hostel_list/hostel_list_page.dart';
 import 'package:hostelhubaccra/features/onboarding/onboarding_screen.dart';
 import 'package:hostelhubaccra/features/settings/profile_settings.dart';
 import 'package:hostelhubaccra/features/settings/settings_page.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -44,10 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(CupertinoIcons.bell),
           ),
           actions: [
+            IconButton.filled(onPressed: null, icon: Icon(Icons.search)),
             IconButton(
               onPressed: () {
-                // Add functionality for the circular avatar icon here
-                // For example, open user profile screen
+                
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ProfileSettings()),
@@ -99,6 +101,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               ParallaxEffect(),
+               Container(
+  padding: EdgeInsets.all(15.0),
+  height: 300, // Adjust height as needed
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(15.0), // Adjust the radius as needed
+    child: GoogleMap(
+      initialCameraPosition: CameraPosition(
+        target: LatLng(5.6037, -0.1870), // Example: Accra coordinates
+        zoom: 12,
+      ),
+      markers: {
+        Marker(
+          markerId: MarkerId('1'),
+          position: LatLng(5.6037, -0.1870), // Example: Accra coordinates
+        ),
+      },
+    ),
+  ),
+)
+
             ],
           ),
         ),
