@@ -36,8 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
           elevation: 0.5,
           leading: IconButton(
             onPressed: () {
-              // Add functionality for the bell icon here
-              // For example, open notifications screen
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ProfileSettings()),
@@ -103,18 +101,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ParallaxEffect(),
                Container(
   padding: EdgeInsets.all(15.0),
-  height: 300, // Adjust height as needed
+  height: 300, 
   child: ClipRRect(
-    borderRadius: BorderRadius.circular(15.0), // Adjust the radius as needed
+    borderRadius: BorderRadius.circular(15.0), 
     child: GoogleMap(
       initialCameraPosition: CameraPosition(
-        target: LatLng(5.6037, -0.1870), // Example: Accra coordinates
+        target: LatLng(5.6037, -0.1870), 
         zoom: 12,
       ),
       markers: {
         Marker(
           markerId: MarkerId('1'),
-          position: LatLng(5.6037, -0.1870), // Example: Accra coordinates
+          position: LatLng(5.6037, -0.1870), 
         ),
       },
     ),
@@ -130,34 +128,22 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {
               _currentIndex = index;
             });
-            // Handle navigation based on index
             switch (index) {
-              case 0:
-                // Navigate to Home screen
-                // You are already on the Home screen, so no navigation needed
+              case 0:    
                 break;
               case 1:
-                // Navigate to Hostels screen
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HostelsList()),
                 );
                 break;
               case 2:
-                // Navigate to Settings screen
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SettingsScreen()),
                 );
                 break;
-              // Add more cases for additional screens
-              // case 3:
-              //   // Navigate to Profile screen
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (context) => ProfileScreen()),
-              //   );
-              //   break;
+              
             }
           },
         ),
