@@ -5,6 +5,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:hostelhubaccra/features/home/homescreen.dart';
 
 class SimpleLoginScreen extends StatefulWidget {
   /// Callback for when this form is submitted successfully. Parameters are (email, password)
@@ -138,7 +139,12 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
             ),
             FormButton(
               text: 'Log In',
-              onPressed: submit,
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>  HomeScreen(),
+                ),
+              ),
             ),
             SizedBox(
               height: screenHeight * .15,
@@ -313,7 +319,12 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
             ),
             FormButton(
               text: 'Sign Up',
-              onPressed: submit,
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => HomeScreen(),
+                ),
+              ),
             ),
             SizedBox(
               height: screenHeight * .125,
