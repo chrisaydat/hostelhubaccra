@@ -11,7 +11,10 @@ class HostelsList extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0.5,
           title: Text('Hostels'), // Title for the app bar
           leading: IconButton(
             icon: Icon(Icons.arrow_back), // Back button icon
@@ -63,12 +66,12 @@ HostelListTile(
 HostelListTile(
   title: 'JBK Hostels',
   subTitle: 'Comfortable rooms with Wi-Fi and laundry service',
-  imageUrl: 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhGOejujLvZDUtlEaZRyc0nqD5f1Z-RG9Hdf1uuL6w2pgaugWftC5tQL_DmbDwzXYXJs_LFzyLarGG8J_XuIVauvE4QIirwcWA1spTL7gFpo_q83VN5fkrgQxsp4GSwble0DwhyjoNvkIwyeU-xHKdz8zM69UU4dUsj6H9shRr_YXdkXPQnv2IxX=s680-w680-h510', 
+  imageUrl: 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhFlgpLIKnwWkUKbeo99aVVSSdI-Ouq-B_GBaj46I401v0LC9xaLqQcm7C3RrjtsnTt4gRN_iZ2PQi2vh7TGDJJUqRWcpXijoxINeB-cornxZNw17xCrXJNItwZ46kajBSeDNhEhplIGfbcnTL7fX0acFbWfBdlZafZ4V0KOHcVPlKz1uH-CaMsK=w287-h192-n-k-no-v1-rj', 
 ),
 HostelListTile(
   title: 'JD Hostels',
   subTitle: 'Close proximity to shopping malls and restaurants',
-  imageUrl: 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhGOejujLvZDUtlEaZRyc0nqD5f1Z-RG9Hdf1uuL6w2pgaugWftC5tQL_DmbDwzXYXJs_LFzyLarGG8J_XuIVauvE4QIirwcWA1spTL7gFpo_q83VN5fkrgQxsp4GSwble0DwhyjoNvkIwyeU-xHKdz8zM69UU4dUsj6H9shRr_YXdkXPQnv2IxX=s680-w680-h510', 
+  imageUrl: 'https://pictures-ghana.jijistatic.net/38082557_OTU4LTEyODAtOWM5M2Y0ZjBiNA.webp', 
 ),
 HostelListTile(
   title: 'KyeKyeKu Hostel',

@@ -14,6 +14,7 @@ class HostelListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GFListTile(
       avatar: GFAvatar(
+        backgroundColor: Colors.white,
         backgroundImage: NetworkImage(imageUrl), // Use the NetworkImage here
       ),
       titleText: title,

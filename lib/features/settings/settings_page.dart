@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:hostelhubaccra/features/notifications/notifications_page.dart';
+import 'package:hostelhubaccra/features/settings/profile_settings.dart';
 
 const double kHorizontalPadding = 24.0; // used for default side whitespace
 
@@ -52,12 +54,22 @@ class SettingsScreen extends StatelessWidget {
                       _buildListTile(
                         titleText: 'Account',
                         leadingIconData: Icons.account_circle_outlined,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileSettings()),
+                );
+                        },
                       ),
                       _buildListTile(
                         titleText: 'Notifications',
                         leadingIconData: Icons.notifications_outlined,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NotificationsPage()),
+                );
+                        },
                       ),
                       _buildListTile(
                         titleText: 'Security',
