@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, use_super_parameters, prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: unused_field, prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, library_private_types_in_public_api
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ import 'package:hostelhubaccra/features/onboarding/onboarding_screen.dart';
 import 'package:hostelhubaccra/features/settings/profile_settings.dart';
 import 'package:hostelhubaccra/features/settings/settings_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import'package:cloud_firestore/cloud_firestore.dart';
 
 
 void main() {
@@ -24,6 +25,25 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  TextEditingController _searchController = TextEditingController();
+  Stream<QuerySnapshot>? _stream;
+
+  @override
+  void initState() {
+    super.initState();
+    _stream = FirebaseFirestore.instance.collection('your_collection').snapshots();
+  }
+
+  void _search() {
+    print("Search button tapped");
+    String searchText = _searchController.text.trim();
+    setState(() {
+      _stream = FirebaseFirestore.instance
+          .collection('hostels')
+          .where('Title', isEqualTo: searchText)
+          .snapshots();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +64,12 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(CupertinoIcons.bell),
           ),
           actions: [
-            IconButton.filled(onPressed: null, icon: Icon(Icons.search)),
+            IconButton(
+              onPressed: _search,
+              icon: Icon(Icons.search),
+            ),
             IconButton(
               onPressed: () {
-                
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ProfileSettings()),

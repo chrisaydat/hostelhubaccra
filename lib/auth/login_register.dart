@@ -1,17 +1,12 @@
-/*
-  Flutter UI
-  ----------
-  lib/screens/simple_login.dart
-*/
+// ignore_for_file: use_key_in_widget_constructors, use_super_parameters, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:hostelhubaccra/features/home/homescreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SimpleLoginScreen extends StatefulWidget {
-  /// Callback for when this form is submitted successfully. Parameters are (email, password)
-  final Function(String? email, String? password)? onSubmitted;
+  const SimpleLoginScreen({Key? key}) : super(key: key);
 
-  const SimpleLoginScreen({this.onSubmitted, Key? key}) : super(key: key);
   @override
   State<SimpleLoginScreen> createState() => _SimpleLoginScreenState();
 }
@@ -19,15 +14,13 @@ class SimpleLoginScreen extends StatefulWidget {
 class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
   late String email, password;
   String? emailError, passwordError;
-  Function(String? email, String? password)? get onSubmitted =>
-      widget.onSubmitted;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
     email = '';
     password = '';
-
     emailError = null;
     passwordError = null;
   }
@@ -39,35 +32,32 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
     });
   }
 
-  bool validate() {
+  Future<void> signIn() async {
     resetErrorText();
 
-    RegExp emailExp = RegExp(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
-
-    bool isValid = true;
-    if (email.isEmpty || !emailExp.hasMatch(email)) {
+    try {
+      final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // Navigate to HomeScreen after successful login
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+      );
+    } catch (e) {
       setState(() {
-        emailError = 'Email is invalid';
+        if (e is FirebaseAuthException) {
+          if (e.code == 'user-not-found') {
+            emailError = 'No user found for that email.';
+          } else if (e.code == 'wrong-password') {
+            passwordError = 'Wrong password provided for that user.';
+          } else {
+            // Handle other errors
+            print('Error: $e');
+          }
+        }
       });
-      isValid = false;
-    }
-
-    if (password.isEmpty) {
-      setState(() {
-        passwordError = 'Please enter a password';
-      });
-      isValid = false;
-    }
-
-    return isValid;
-  }
-
-  void submit() {
-    if (validate()) {
-      if (onSubmitted != null) {
-        onSubmitted!(email, password);
-      }
     }
   }
 
@@ -116,7 +106,7 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
                   password = value;
                 });
               },
-              onSubmitted: (val) => submit(),
+              onSubmitted: (val) => signIn(),
               labelText: 'Password',
               errorText: passwordError,
               obscureText: true,
@@ -125,7 +115,9 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Handle Forgot Password
+                },
                 child: const Text(
                   'Forgot Password?',
                   style: TextStyle(
@@ -139,23 +131,18 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
             ),
             FormButton(
               text: 'Log In',
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) =>  HomeScreen(),
-                ),
-              ),
+              onPressed: signIn,
             ),
             SizedBox(
               height: screenHeight * .15,
             ),
             TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const SimpleRegisterScreen(),
-                ),
-              ),
+              onPressed: () {
+                      Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SimpleRegisterScreen())
+                      );
+              },
               child: RichText(
                 text: const TextSpan(
                   text: "I'm a new user, ",
@@ -179,8 +166,9 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
   }
 }
 
+
+
 class SimpleRegisterScreen extends StatefulWidget {
-  /// Callback for when this form is submitted successfully. Parameters are (email, password)
   final Function(String? email, String? password)? onSubmitted;
 
   const SimpleRegisterScreen({this.onSubmitted, Key? key}) : super(key: key);
@@ -201,7 +189,6 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
     email = '';
     password = '';
     confirmPassword = '';
-
     emailError = null;
     passwordError = null;
   }
@@ -243,10 +230,33 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
     return isValid;
   }
 
-  void submit() {
+  void submit() async {
     if (validate()) {
-      if (onSubmitted != null) {
-        onSubmitted!(email, password);
+      try {
+        UserCredential userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+
+        User? user = userCredential.user;
+        print('User registered: ${user!.email}');
+
+         Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+      );
+
+        setState(() {
+          email = '';
+          password = '';
+          confirmPassword = '';
+          emailError = null;
+          passwordError = null;
+        });
+      } catch (error) {
+        print('Error registering user: $error');
+        // Handle registration errors here (e.g., display error message to the user)
       }
     }
   }
@@ -314,21 +324,12 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
               obscureText: true,
               textInputAction: TextInputAction.done,
             ),
-            SizedBox(
-              height: screenHeight * .075,
-            ),
+            SizedBox(height: screenHeight * .075),
             FormButton(
               text: 'Sign Up',
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => HomeScreen(),
-                ),
-              ),
+              onPressed: submit,
             ),
-            SizedBox(
-              height: screenHeight * .125,
-            ),
+            SizedBox(height: screenHeight * .125),
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: RichText(
@@ -357,7 +358,7 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
 class FormButton extends StatelessWidget {
   final String text;
   final Function? onPressed;
-  const FormButton({this.text = '', this.onPressed, Key? key})
+  const FormButton({required this.text, required this.onPressed, Key? key})
       : super(key: key);
 
   @override
