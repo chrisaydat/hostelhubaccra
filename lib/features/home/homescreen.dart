@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, library_private_types_in_public_api
+// ignore_for_file: unused_field, prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +6,7 @@ import 'package:hostelhubaccra/components/navbar/bottom_navigation_bar.dart';
 import 'package:hostelhubaccra/components/parallex/parallex_widget.dart';
 import 'package:hostelhubaccra/features/hostel_list/hostel_list_page.dart';
 import 'package:hostelhubaccra/features/onboarding/onboarding_screen.dart';
+import 'package:hostelhubaccra/features/search/search_page.dart';
 import 'package:hostelhubaccra/features/settings/profile_settings.dart';
 import 'package:hostelhubaccra/features/settings/settings_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -31,11 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _stream = FirebaseFirestore.instance.collection('your_collection').snapshots();
+    _stream = FirebaseFirestore.instance.collection('hostels').snapshots();
   }
 
   void _search() {
-    print("Search button tapped");
     String searchText = _searchController.text.trim();
     setState(() {
       _stream = FirebaseFirestore.instance
@@ -65,7 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           actions: [
             IconButton(
-              onPressed: _search,
+onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchPage()),
+                );
+              },
               icon: Icon(Icons.search),
             ),
             IconButton(
