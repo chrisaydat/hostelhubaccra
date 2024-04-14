@@ -8,7 +8,7 @@ class HostelListTile extends StatelessWidget {
   final String subTitle;
   final String imageUrl; // New property for the image URL
 
-  HostelListTile({required this.title, required this.subTitle, required this.imageUrl});
+  HostelListTile({required this.title, required this.subTitle, required this.imageUrl, required Null Function() onTap});
 
   @override
   Widget build(BuildContext context) {

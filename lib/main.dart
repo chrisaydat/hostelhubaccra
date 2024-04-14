@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hostelhubaccra/features/home/homescreen.dart';
+import 'package:hostelhubaccra/features/hostel_list/hostels_details_page.dart';
 import 'package:hostelhubaccra/features/onboarding/onboarding_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
