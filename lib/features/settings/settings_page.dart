@@ -3,11 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:hostelhubaccra/features/notifications/notifications_page.dart';
 import 'package:hostelhubaccra/features/settings/profile_settings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 const double kHorizontalPadding = 24.0; // used for default side whitespace
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +57,9 @@ class SettingsScreen extends StatelessWidget {
                         leadingIconData: Icons.account_circle_outlined,
                         onTap: () {
                           Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileSettings()),
-                );
+                            context,
+                            MaterialPageRoute(builder: (context) => ProfileSettings()),
+                          );
                         },
                       ),
                       _buildListTile(
@@ -66,9 +67,9 @@ class SettingsScreen extends StatelessWidget {
                         leadingIconData: Icons.notifications_outlined,
                         onTap: () {
                           Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NotificationsPage()),
-                );
+                            context,
+                            MaterialPageRoute(builder: (context) => NotificationsPage()),
+                          );
                         },
                       ),
                       _buildListTile(
@@ -86,15 +87,23 @@ class SettingsScreen extends StatelessWidget {
                         leadingIconData: Icons.logout,
                         includeTrailingIcon: false,
                         color: Colors.red,
-                        onTap: () {
-                          //Todo: Logout of auth here
+                        onTap: () async {
+                          try {
+                            await FirebaseAuth.instance.signOut();
+                            // Optionally, navigate the user to the login screen after logout
+                            // Navigator.of(context).pushReplacementNamed('/login');
+                          } catch (e) {
+                            // Handle errors if any
+                            print('Error signing out: $e');
+                          }
                         },
                       ),
                       _buildSectionTitle(title: 'FEEDBACK'),
                       _buildListTile(
-                          titleText: 'Report a bug',
-                          leadingIconData: Icons.warning_amber_outlined,
-                          onTap: () {}),
+                        titleText: 'Report a bug',
+                        leadingIconData: Icons.warning_amber_outlined,
+                        onTap: () {},
+                      ),
                       _buildListTile(
                         titleText: 'Send feedback',
                         leadingIconData: Icons.send_outlined,
@@ -115,7 +124,7 @@ class SettingsScreen extends StatelessWidget {
                       Center(
                         child: Text(
                           'VERSION 1.0.0',
-                          style: Theme.of(context).textTheme.labelSmall,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
                       const SizedBox(height: 48),
@@ -149,36 +158,37 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Widget _buildListTile(
-          {required String titleText,
-          IconData? leadingIconData,
-          required Function onTap,
-          Color color = Colors.black,
-          bool includeTrailingIcon = true}) =>
-      Column(
-        children: [
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: Icon(
-              leadingIconData,
-              color: color,
-              size: 28,
-            ),
-            title: Text(
-              titleText,
-              style: TextStyle(
-                color: color,
-                fontSize: 18,
-              ),
-            ),
-            onTap: onTap as void Function(),
-            trailing: includeTrailingIcon
-                ? const Icon(
-                    Icons.chevron_right,
-                    size: 28,
-                  )
-                : null,
+      {required String titleText,
+      required IconData leadingIconData,
+      required Function onTap,
+      Color color = Colors.black,
+      bool includeTrailingIcon = true}) {
+    return Column(
+      children: [
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: Icon(
+            leadingIconData,
+            color: color,
+            size: 28,
           ),
-          const Divider(),
-        ],
-      );
+          title: Text(
+            titleText,
+            style: TextStyle(
+              color: color,
+              fontSize: 18,
+            ),
+          ),
+          onTap: () => onTap(),
+          trailing: includeTrailingIcon
+              ? const Icon(
+                  Icons.chevron_right,
+                  size: 28,
+                )
+              : null,
+        ),
+        const Divider(),
+      ],
+    );
+  }
 }

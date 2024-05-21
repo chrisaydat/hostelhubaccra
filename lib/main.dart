@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:hostelhubaccra/features/home/homescreen.dart';
@@ -8,9 +8,15 @@ import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // Initialize Firebase
-  runApp(const MyApp());
+  
+  try {
+    await Firebase.initializeApp();
+    runApp(MyApp());
+  } catch (e) {
+    runApp(ErrorApp(e));
+  }
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -26,9 +32,25 @@ class MyApp extends StatelessWidget {
       ),
       home: OnboardingScreen(),
       routes: {
-'/home':(context) => HomeScreen(),
+        '/home': (context) => HomeScreen(),
       },
     );
   }
 }
 
+class ErrorApp extends StatelessWidget {
+  final Object error;
+
+  ErrorApp(this.error);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Text('Error initializing Firebase: $error'),
+        ),
+      ),
+    );
+  }
+}

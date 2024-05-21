@@ -13,9 +13,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import'package:cloud_firestore/cloud_firestore.dart';
 
 
-void main() {
-  runApp(MyApp());
-}
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
