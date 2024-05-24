@@ -38,7 +38,8 @@ class _SearchPageState extends State<SearchPage> {
     },
     {
       'title': 'Graduate Hills Hostel',
-      'subtitle': 'Conveniently located near the university campus with Shuttle Service',
+      'subtitle':
+          'Conveniently located near the university campus with Shuttle Service',
       'imageUrl':
           'https://lh5.googleusercontent.com/p/AF1QipNlI3yAh6sOrtDb4L0InZXA62tKBT3l6ipL0LHR=w260-h175-n-k-no',
     },
@@ -52,7 +53,7 @@ class _SearchPageState extends State<SearchPage> {
       'title': 'JBK Hostels',
       'subtitle': 'Comfortable rooms with Wi-Fi and laundry service',
       'imageUrl':
-          'https://lh3.googleusercontent.com/gps-proxy/ALd4DhFlgpLIKnwWkUKbeo99aVVSSdI-Ouq-B_GBaj46I401v0LC9xaLqQcm7C3RrjtsnTt4gRN_iZ2PQi2vh7TGDJJUqRWcpXijoxINeB-cornxZNw17xCrXJNItwZ46kajBSeDNhEhplIGfbcnTL7fX0acFbWfBdlZafZ4V0KOHcVPlKz1uH-CaMsK=w287-h192-n-k-no-v1-rj',
+          'https://getrooms.co/wp-content/uploads/2022/10/26841480_139635066733731_2981524191364989472_o-1.jpg',
     },
     {
       'title': 'JD Hostels',
@@ -70,7 +71,7 @@ class _SearchPageState extends State<SearchPage> {
       'title': 'Friendly Hostel',
       'subtitle': 'Modern facilities including gym and swimming pool',
       'imageUrl':
-          'https://lh3.googleusercontent.com/p/AF1QipOSUeYNtoo5FheA8ePFWhfCbQMpPpoH53BLGMip=s680-w680-h510',
+          'https://friendly-hostel-zurich.hotelmix.co.uk/data/Photos/OriginalPhoto/15455/1545557/1545557056/Friendly-Hostel-Zurich-Exterior.JPEG',
     },
     {
       'title': 'Haven Hostel',
@@ -148,8 +149,9 @@ class _SearchPageState extends State<SearchPage> {
         _filteredHostels = List.from(_hostels);
       } else {
         _filteredHostels = _hostels
-            .where((hostel) =>
-                hostel['title'].toLowerCase().contains(searchText.toLowerCase()))
+            .where((hostel) => hostel['title']
+                .toLowerCase()
+                .contains(searchText.toLowerCase()))
             .toList();
       }
     });

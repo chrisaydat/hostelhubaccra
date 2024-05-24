@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
 
 class HostelDetailsPage extends StatelessWidget {
@@ -57,58 +56,54 @@ class HostelDetailsPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20),
-            SizedBox(height: 20),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //   children: [
-            //     ElevatedButton(
-            //       onPressed: () {
-            //       },
-            //       child: Text('Contact 📞'),
-            //     ),
-            //     // ElevatedButton(
-            //     //   onPressed: () {
-            //     //     // Handle book appointment action
-            //     //   },
-            //     //   child: Text('Pay ¢'),
-            //     // ),
-            //   ],
-            // ),
-            SlideAnimation(
-              onPressed: () {},
-              icon: Icons.contact_phone_sharp,
-              iconSize: 30,
-              height: 40,
-              color: const Color(0xffE7E7E9),
-              slideColor: Colors.black,
-              slideDuration: const Duration(milliseconds: 1000),
-              completedAnimation: const Duration(milliseconds: 2000),
-              content: const Text(
-                'Contact',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            SlideAnimation(
-              onPressed: () {},
-              icon: Icons.payment_rounded,
-              iconSize: 30,
-              height: 40,
-              color: const Color(0xffE7E7E9),
-              slideColor: Colors.black,
-              slideDuration: const Duration(milliseconds: 1000),
-              completedAnimation: const Duration(milliseconds: 2000),
-              content: const Text(
-                'Book',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w500,
-                ),
+            // Adding the Row for Contact and Book buttons with Expanded
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: SlideAnimation(
+                      onPressed: () {},
+                      icon: Icons.contact_phone_sharp,
+                      iconSize: 30,
+                      height: 40,
+                      color: const Color(0xffE7E7E9),
+                      slideColor: Colors.black,
+                      slideDuration: const Duration(milliseconds: 1000),
+                      completedAnimation: const Duration(milliseconds: 2000),
+                      content: const Text(
+                        'Contact',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 20), // Add some space between the buttons
+                  Expanded(
+                    child: SlideAnimation(
+                      onPressed: () {},
+                      icon: Icons.payment_rounded,
+                      iconSize: 30,
+                      height: 40,
+                      color: const Color(0xffE7E7E9),
+                      slideColor: Colors.black,
+                      slideDuration: const Duration(milliseconds: 1000),
+                      completedAnimation: const Duration(milliseconds: 2000),
+                      content: const Text(
+                        'Book',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

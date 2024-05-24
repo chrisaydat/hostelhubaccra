@@ -52,36 +52,36 @@ class SettingsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildSectionTitle(title: 'GENERAL'),
-                      _buildListTile(
-                        titleText: 'Account',
-                        leadingIconData: Icons.account_circle_outlined,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ProfileSettings()),
-                          );
-                        },
-                      ),
-                      _buildListTile(
-                        titleText: 'Notifications',
-                        leadingIconData: Icons.notifications_outlined,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => NotificationsPage()),
-                          );
-                        },
-                      ),
-                      _buildListTile(
-                        titleText: 'Security',
-                        leadingIconData: Icons.lock_outline,
-                        onTap: () {},
-                      ),
-                      _buildListTile(
-                        titleText: 'Appearance',
-                        leadingIconData: Icons.visibility_outlined,
-                        onTap: () {},
-                      ),
+                      // _buildListTile(
+                      //   titleText: 'Account',
+                      //   leadingIconData: Icons.account_circle_outlined,
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(builder: (context) => ProfileSettings()),
+                      //     );
+                      //   },
+                      // ),
+                      // _buildListTile(
+                      //   titleText: 'Notifications',
+                      //   leadingIconData: Icons.notifications_outlined,
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(builder: (context) => NotificationsPage()),
+                      //     );
+                      //   },
+                      // ),
+                      // _buildListTile(
+                      //   titleText: 'Security',
+                      //   leadingIconData: Icons.lock_outline,
+                      //   onTap: () {},
+                      // ),
+                      // _buildListTile(
+                      //   titleText: 'Appearance',
+                      //   leadingIconData: Icons.visibility_outlined,
+                      //   onTap: () {},
+                      // ),
                       _buildListTile(
                         titleText: 'Logout',
                         leadingIconData: Icons.logout,
@@ -98,28 +98,28 @@ class SettingsScreen extends StatelessWidget {
                           }
                         },
                       ),
-                      _buildSectionTitle(title: 'FEEDBACK'),
-                      _buildListTile(
-                        titleText: 'Report a bug',
-                        leadingIconData: Icons.warning_amber_outlined,
-                        onTap: () {},
-                      ),
-                      _buildListTile(
-                        titleText: 'Send feedback',
-                        leadingIconData: Icons.send_outlined,
-                        onTap: () {},
-                      ),
-                      _buildSectionTitle(title: 'INFO'),
-                      _buildListTile(
-                        titleText: 'About',
-                        leadingIconData: Icons.help_outline,
-                        onTap: () {},
-                      ),
-                      _buildListTile(
-                        titleText: 'Get support',
-                        leadingIconData: Icons.contact_support_outlined,
-                        onTap: () {},
-                      ),
+                      // _buildSectionTitle(title: 'FEEDBACK'),
+                      // _buildListTile(
+                      //   titleText: 'Report a bug',
+                      //   leadingIconData: Icons.warning_amber_outlined,
+                      //   onTap: () {},
+                      // ),
+                      // _buildListTile(
+                      //   titleText: 'Send feedback',
+                      //   leadingIconData: Icons.send_outlined,
+                      //   onTap: () {},
+                      // ),
+                      // _buildSectionTitle(title: 'INFO'),
+                      // _buildListTile(
+                      //   titleText: 'About',
+                      //   leadingIconData: Icons.help_outline,
+                      //   onTap: () {},
+                      // ),
+                      // _buildListTile(
+                      //   titleText: 'Get support',
+                      //   leadingIconData: Icons.contact_support_outlined,
+                      //   onTap: () {},
+                      // ),
                       const SizedBox(height: 24),
                       Center(
                         child: Text(
