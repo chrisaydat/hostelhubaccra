@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:hostelhubaccra/features/hostel_list/hostels_details_page.dart';
+
 
 class SearchPage extends StatefulWidget {
   @override
@@ -133,6 +135,7 @@ class _SearchPageState extends State<SearchPage> {
       'imageUrl':
           'https://getrooms.co/wp-content/uploads/2022/10/tesano-palace-hostel.jpg',
     },
+
   ];
 
   List<Map<String, dynamic>> _filteredHostels = [];
@@ -150,8 +153,8 @@ class _SearchPageState extends State<SearchPage> {
       } else {
         _filteredHostels = _hostels
             .where((hostel) => hostel['title']
-                .toLowerCase()
-                .contains(searchText.toLowerCase()))
+            .toLowerCase()
+            .contains(searchText.toLowerCase()))
             .toList();
       }
     });
@@ -178,14 +181,29 @@ class _SearchPageState extends State<SearchPage> {
         itemCount: _filteredHostels.length,
         itemBuilder: (context, index) {
           final hostel = _filteredHostels[index];
-          return ListTile(
-            leading: CachedNetworkImage(
-              imageUrl: hostel['imageUrl'],
-              errorWidget: (context, error, stackTrace) => Icon(Icons.error),
-              placeholder: (context, url) => CircularProgressIndicator(),
+          return GestureDetector(
+            onTap: () {
+              // Navigate to the HostelDetailsPage and pass parameters
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HostelDetailsPage(
+                    title: hostel['title'],
+                    subTitle: hostel['subtitle'],
+                    imageUrl: hostel['imageUrl'],
+                  ),
+                ),
+              );
+            },
+            child: ListTile(
+              leading: CachedNetworkImage(
+                imageUrl: hostel['imageUrl'],
+                errorWidget: (context, error, stackTrace) => Icon(Icons.error),
+                placeholder: (context, url) => CircularProgressIndicator(),
+              ),
+              title: Text(hostel['title']),
+              subtitle: Text(hostel['subtitle']),
             ),
-            title: Text(hostel['title']),
-            subtitle: Text(hostel['subtitle']),
           );
         },
       ),
