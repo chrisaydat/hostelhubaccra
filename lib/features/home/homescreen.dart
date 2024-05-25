@@ -1,5 +1,3 @@
-// ignore_for_file: unused_field, prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelhubaccra/components/navbar/bottom_navigation_bar.dart';
@@ -10,9 +8,8 @@ import 'package:hostelhubaccra/features/search/search_page.dart';
 import 'package:hostelhubaccra/features/settings/profile_settings.dart';
 import 'package:hostelhubaccra/features/settings/settings_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import'package:cloud_firestore/cloud_firestore.dart';
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hostelhubaccra/neary_hostels/nearby_hostels_page.dart';  // Import your new page
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -62,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           actions: [
             IconButton(
-onPressed: () {
+              onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SearchPage()),
@@ -92,57 +89,53 @@ onPressed: () {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Welcome Back',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          ",Ransford ",
-                          style: TextStyle(
-                              color: Colors.lightGreen,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
+                    Text(
+                      'Welcome Back',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                      ],
+                    Text(
+                      ",Ransford ",
+                      style: TextStyle(
+                          color: Colors.lightGreen,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
               ),
               ParallaxEffect(),
-               Container(
-  padding: EdgeInsets.all(15.0),
-  height: 300, 
-  child: ClipRRect(
-    borderRadius: BorderRadius.circular(15.0), 
-    child: GoogleMap(
-      initialCameraPosition: CameraPosition(
-        target: LatLng(5.6037, -0.1870), 
-        zoom: 12,
-      ),
-      markers: {
-        Marker(
-          markerId: MarkerId('1'),
-          position: LatLng(5.6037, -0.1870), 
-        ),
-      },
-    ),
-  ),
-)
-
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NearbyHostelsPage()),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(15.0),
+                  height: 300,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(5.6037, -0.1870),
+                        zoom: 12,
+                      ),
+                      markers: {
+                        Marker(
+                          markerId: MarkerId('1'),
+                          position: LatLng(5.6037, -0.1870),
+                        ),
+                      },
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -153,7 +146,7 @@ onPressed: () {
               _currentIndex = index;
             });
             switch (index) {
-              case 0:    
+              case 0:
                 break;
               case 1:
                 Navigator.push(
@@ -167,7 +160,6 @@ onPressed: () {
                   MaterialPageRoute(builder: (context) => SettingsScreen()),
                 );
                 break;
-              
             }
           },
         ),
