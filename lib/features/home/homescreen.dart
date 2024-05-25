@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelhubaccra/components/navbar/bottom_navigation_bar.dart';
@@ -9,7 +11,7 @@ import 'package:hostelhubaccra/features/settings/profile_settings.dart';
 import 'package:hostelhubaccra/features/settings/settings_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hostelhubaccra/neary_hostels/nearby_hostels_page.dart';  // Import your new page
+import 'package:hostelhubaccra/neary_hostels/nearby_hostels_page.dart'; // Import your new page
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -52,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProfileSettings()),
+                MaterialPageRoute(builder: (context) => NearbyHostelsPage()),
               );
             },
             icon: Icon(CupertinoIcons.bell),
@@ -166,4 +168,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: HomeScreen(),
+  ));
 }
