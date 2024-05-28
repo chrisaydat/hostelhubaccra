@@ -55,5 +55,20 @@
     <string>This app needs access to location to show hostels nearby.</string>
     <key>GMSApiKey</key>
     <string>AIzaSyDrfIUPwzBRz3uBvIBOmTnVeaM0ZHi5fUc</string>
+    
+    <!-- Permissions for url_launcher -->
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>tel</string>
+    </array>
+    
+    <!-- Permissions for image_picker -->
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs access to the camera to capture profile pictures.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs access to the photo library to select profile pictures.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>This app needs permission to save profile pictures to the photo library.</string>
+    
 </dict>
 </plist>

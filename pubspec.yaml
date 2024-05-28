@@ -42,6 +42,7 @@ dependencies:
   location: ^6.0.2
   fluttertoast: ^8.2.5
   url_launcher: ^6.2.6
+  image_picker: ^1.1.1
 
 
 

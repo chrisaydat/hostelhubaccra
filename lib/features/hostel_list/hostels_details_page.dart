@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HostelDetailsPage extends StatelessWidget {
+class HostelDetailsPage extends StatefulWidget {
   final String title;
   final String subTitle;
   final String imageUrl;
@@ -13,6 +13,27 @@ class HostelDetailsPage extends StatelessWidget {
     required this.imageUrl,
     required this.price,
   });
+
+  @override
+  _HostelDetailsPageState createState() => _HostelDetailsPageState();
+}
+
+class _HostelDetailsPageState extends State<HostelDetailsPage> {
+  final TextEditingController _reviewController = TextEditingController();
+  final List<String> _reviews = [
+    'Great hostel with excellent facilities!',
+    'The staff is friendly and helpful.',
+    'Clean and comfortable rooms.',
+  ];
+
+  void _submitReview() {
+    if (_reviewController.text.isNotEmpty) {
+      setState(() {
+        _reviews.add(_reviewController.text);
+        _reviewController.clear();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,25 +52,25 @@ class HostelDetailsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.network(
-              imageUrl,
+              widget.imageUrl,
               height: 200,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
             SizedBox(height: 20),
             Text(
-              title,
+              widget.title,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
             Text(
-              subTitle,
+              widget.subTitle,
               style: TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
             Text(
-              price,
+              widget.price,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
@@ -65,7 +86,6 @@ class HostelDetailsPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20),
-            // Adding the centered Contact button
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Center(
@@ -90,6 +110,31 @@ class HostelDetailsPage extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TextField(
+                controller: _reviewController,
+                decoration: InputDecoration(
+                  hintText: 'Write a review...',
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.send),
+                    onPressed: _submitReview,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: _reviews.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(_reviews[index]),
+                );
+              },
             ),
           ],
         ),
