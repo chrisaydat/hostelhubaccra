@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:hostelhubaccra/features/notifications/notifications_page.dart';
 import 'package:hostelhubaccra/features/settings/profile_settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hostelhubaccra/main.dart';
 
 const double kHorizontalPadding = 24.0; // used for default side whitespace
 
@@ -90,8 +91,7 @@ class SettingsScreen extends StatelessWidget {
                         onTap: () async {
                           try {
                             await FirebaseAuth.instance.signOut();
-                            // Optionally, navigate the user to the login screen after logout
-                            // Navigator.of(context).pushReplacementNamed('/login');
+                            Navigator.of(context).pushReplacementNamed('/login');
                           } catch (e) {
                             // Handle errors if any
                             print('Error signing out: $e');

@@ -56,16 +56,16 @@ class ProfileSettings extends StatelessWidget {
               imageUrl: avatarImageUrl,
             ),
           ),
-          const SizedBox(height: 4),
-          CupertinoButton(
-            child: const Text(
-              'Upload Image',
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            onPressed: () {
-              // Logic to upload image from photo library and replace
-            },
-          ),
+          // const SizedBox(height: 4),
+          // CupertinoButton(
+          //   child: const Text(
+          //     'Upload Image',
+          //     style: TextStyle(fontWeight: FontWeight.w500),
+          //   ),
+          //   onPressed: () {
+          //     // Logic to upload image from photo library and replace
+          //   },
+          // ),
           const SizedBox(height: 48),
           ProfileInputField(
             inputLabel: 'First name',

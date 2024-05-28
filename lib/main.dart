@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:hostelhubaccra/auth/login_register.dart';
 import 'package:hostelhubaccra/features/home/homescreen.dart';
 import 'package:hostelhubaccra/features/hostel_list/hostels_details_page.dart';
 import 'package:hostelhubaccra/features/onboarding/onboarding_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:hostelhubaccra/features/settings/settings_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +35,7 @@ class MyApp extends StatelessWidget {
       home: OnboardingScreen(),
       routes: {
         '/home': (context) => HomeScreen(),
+        '/login': (context) => SimpleLoginScreen(),
       },
     );
   }

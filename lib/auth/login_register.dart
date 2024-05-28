@@ -15,6 +15,7 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
   late String email, password;
   String? emailError, passwordError;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -34,6 +35,17 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
 
   Future<void> signIn() async {
     resetErrorText();
+
+    if (!isValidEmail(email)) {
+      setState(() {
+        emailError = 'Invalid email format';
+      });
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
 
     try {
       final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -58,7 +70,17 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
           }
         }
       });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
+  }
+
+  bool isValidEmail(String email) {
+    // Email validation regex pattern
+    final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+    return emailRegex.hasMatch(email);
   }
 
   @override
@@ -129,19 +151,23 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
             SizedBox(
               height: screenHeight * .075,
             ),
-            FormButton(
-              text: 'Log In',
-              onPressed: signIn,
-            ),
+            isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : FormButton(
+                    text: 'Log In',
+                    onPressed: signIn,
+                  ),
             SizedBox(
               height: screenHeight * .15,
             ),
             TextButton(
               onPressed: () {
-                      Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SimpleRegisterScreen())
-                      );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SimpleRegisterScreen()),
+                );
               },
               child: RichText(
                 text: const TextSpan(
@@ -166,8 +192,6 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
   }
 }
 
-
-
 class SimpleRegisterScreen extends StatefulWidget {
   final Function(String? email, String? password)? onSubmitted;
 
@@ -180,8 +204,8 @@ class SimpleRegisterScreen extends StatefulWidget {
 class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
   late String email, password, confirmPassword;
   String? emailError, passwordError;
-  Function(String? email, String? password)? get onSubmitted =>
-      widget.onSubmitted;
+  Function(String? email, String? password)? get onSubmitted => widget.onSubmitted;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -203,24 +227,38 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
   bool validate() {
     resetErrorText();
 
-    RegExp emailExp = RegExp(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
-
     bool isValid = true;
-    if (email.isEmpty || !emailExp.hasMatch(email)) {
+
+    if (email.isEmpty) {
       setState(() {
-        emailError = 'Email is invalid';
+        emailError = 'Email is required';
+      });
+      isValid = false;
+    } else if (!isValidEmail(email)) {
+      setState(() {
+        emailError = 'Invalid email format';
       });
       isValid = false;
     }
 
-    if (password.isEmpty || confirmPassword.isEmpty) {
+    if (password.isEmpty) {
       setState(() {
-        passwordError = 'Please enter a password';
+        passwordError = 'Password is required';
+      });
+      isValid = false;
+    } else if (password.length < 6) {
+      setState(() {
+        passwordError = 'Password must be at least 6 characters long';
       });
       isValid = false;
     }
-    if (password != confirmPassword) {
+
+    if (confirmPassword.isEmpty) {
+      setState(() {
+        passwordError = 'Confirm Password is required';
+      });
+      isValid = false;
+    } else if (password != confirmPassword) {
       setState(() {
         passwordError = 'Passwords do not match';
       });
@@ -230,11 +268,20 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
     return isValid;
   }
 
+  bool isValidEmail(String email) {
+    // Email validation regex pattern
+    final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+    return emailRegex.hasMatch(email);
+  }
+
   void submit() async {
     if (validate()) {
+      setState(() {
+        isLoading = true;
+      });
+
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
@@ -242,10 +289,10 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
         User? user = userCredential.user;
         print('User registered: ${user!.email}');
 
-         Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => HomeScreen()),
-      );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomeScreen()),
+        );
 
         setState(() {
           email = '';
@@ -257,6 +304,10 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
       } catch (error) {
         print('Error registering user: $error');
         // Handle registration errors here (e.g., display error message to the user)
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
       }
     }
   }
@@ -325,10 +376,14 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
               textInputAction: TextInputAction.done,
             ),
             SizedBox(height: screenHeight * .075),
-            FormButton(
-              text: 'Sign Up',
-              onPressed: submit,
-            ),
+            isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : FormButton(
+                    text: 'Sign Up',
+                    onPressed: submit,
+                  ),
             SizedBox(height: screenHeight * .125),
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -358,8 +413,7 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
 class FormButton extends StatelessWidget {
   final String text;
   final Function? onPressed;
-  const FormButton({required this.text, required this.onPressed, Key? key})
-      : super(key: key);
+  const FormButton({required this.text, required this.onPressed, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -390,17 +444,17 @@ class InputField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool autoFocus;
   final bool obscureText;
-  const InputField(
-      {this.labelText,
-      this.onChanged,
-      this.onSubmitted,
-      this.errorText,
-      this.keyboardType,
-      this.textInputAction,
-      this.autoFocus = false,
-      this.obscureText = false,
-      Key? key})
-      : super(key: key);
+  const InputField({
+    this.labelText,
+    this.onChanged,
+    this.onSubmitted,
+    this.errorText,
+    this.keyboardType,
+    this.textInputAction,
+    this.autoFocus = false,
+    this.obscureText = false,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
