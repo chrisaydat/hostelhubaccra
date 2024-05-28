@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hostelhubaccra/features/hostel_list/hostels_details_page.dart';
 
-
 class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -135,7 +134,6 @@ class _SearchPageState extends State<SearchPage> {
       'imageUrl':
           'https://getrooms.co/wp-content/uploads/2022/10/tesano-palace-hostel.jpg',
     },
-
   ];
 
   List<Map<String, dynamic>> _filteredHostels = [];
@@ -153,8 +151,8 @@ class _SearchPageState extends State<SearchPage> {
       } else {
         _filteredHostels = _hostels
             .where((hostel) => hostel['title']
-            .toLowerCase()
-            .contains(searchText.toLowerCase()))
+                .toLowerCase()
+                .contains(searchText.toLowerCase()))
             .toList();
       }
     });
@@ -183,7 +181,7 @@ class _SearchPageState extends State<SearchPage> {
           final hostel = _filteredHostels[index];
           return GestureDetector(
             onTap: () {
-              // Navigate to the HostelDetailsPage and pass parameters
+              // This signifies Navigation to the HostelDetailsPage and pass parameters
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -191,6 +189,7 @@ class _SearchPageState extends State<SearchPage> {
                     title: hostel['title'],
                     subTitle: hostel['subtitle'],
                     imageUrl: hostel['imageUrl'],
+                    price: hostel['price'],
                   ),
                 ),
               );
