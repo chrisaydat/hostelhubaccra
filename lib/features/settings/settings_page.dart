@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hostelhubaccra/features/notifications/notifications_page.dart';
 import 'package:hostelhubaccra/features/settings/profile_settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -98,28 +99,34 @@ class SettingsScreen extends StatelessWidget {
                           }
                         },
                       ),
-                      // _buildSectionTitle(title: 'FEEDBACK'),
-                      // _buildListTile(
-                      //   titleText: 'Report a bug',
-                      //   leadingIconData: Icons.warning_amber_outlined,
-                      //   onTap: () {},
-                      // ),
-                      // _buildListTile(
-                      //   titleText: 'Send feedback',
-                      //   leadingIconData: Icons.send_outlined,
-                      //   onTap: () {},
-                      // ),
-                      // _buildSectionTitle(title: 'INFO'),
+                      _buildSectionTitle(title: 'FEEDBACK'),
+                      _buildListTile(
+                        titleText: 'Report a bug',
+                        leadingIconData: Icons.warning_amber_outlined,
+                        onTap: () {
+                          _showFeedbackForm(context, 'Report a Bug');
+                        },
+                      ),
+                      _buildListTile(
+                        titleText: 'Send feedback',
+                        leadingIconData: Icons.send_outlined,
+                        onTap: () {
+                          _showFeedbackForm(context, 'Send Feedback');
+                        },
+                      ),
+                      _buildSectionTitle(title: 'INFO'),
                       // _buildListTile(
                       //   titleText: 'About',
                       //   leadingIconData: Icons.help_outline,
                       //   onTap: () {},
                       // ),
-                      // _buildListTile(
-                      //   titleText: 'Get support',
-                      //   leadingIconData: Icons.contact_support_outlined,
-                      //   onTap: () {},
-                      // ),
+                      _buildListTile(
+                        titleText: 'Get support',
+                        leadingIconData: Icons.contact_support_outlined,
+                        onTap: () {
+                          _showSupportForm(context);
+                        },
+                      ),
                       const SizedBox(height: 24),
                       Center(
                         child: Text(
@@ -191,4 +198,94 @@ class SettingsScreen extends StatelessWidget {
       ],
     );
   }
+}
+
+void _showFeedbackForm(BuildContext context, String title) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      final TextEditingController _feedbackController = TextEditingController();
+
+      return AlertDialog(
+        title: Text(title),
+        content: TextField(
+          controller: _feedbackController,
+          decoration: InputDecoration(
+            hintText: 'Enter your feedback...',
+          ),
+          maxLines: 5,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              String feedback = _feedbackController.text;
+              // TODO: Implement sending feedback to server or perform any other action
+              Navigator.of(context).pop();
+              Fluttertoast.showToast(
+                msg: 'Thank you for your feedback! It is much appreciated.',
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 2,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
+            },
+            child: Text('Submit'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _showSupportForm(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      final TextEditingController _supportController = TextEditingController();
+
+      return AlertDialog(
+        title: Text('Get Support'),
+        content: TextField(
+          controller: _supportController,
+          decoration: InputDecoration(
+            hintText: 'Describe your issue or question...',
+          ),
+          maxLines: 5,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              String supportMessage = _supportController.text;
+              // TODO: Implement sending support message to server or perform any other action
+              Navigator.of(context).pop();
+              Fluttertoast.showToast(
+                msg: 'We have received your request. Our support team will reach out to you soon.',
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 2,
+                backgroundColor: Colors.blue,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
+            },
+            child: Text('Submit'),
+          ),
+        ],
+      );
+    },
+  );
 }

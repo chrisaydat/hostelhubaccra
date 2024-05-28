@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hostelhubaccra/features/home/homescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SimpleLoginScreen extends StatefulWidget {
   const SimpleLoginScreen({Key? key}) : super(key: key);
@@ -33,6 +34,17 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
     });
   }
 
+  void showErrorToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
   Future<void> signIn() async {
     resetErrorText();
 
@@ -40,6 +52,7 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
       setState(() {
         emailError = 'Invalid email format';
       });
+      showErrorToast('Please enter a valid email address');
       return;
     }
 
@@ -62,11 +75,14 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
         if (e is FirebaseAuthException) {
           if (e.code == 'user-not-found') {
             emailError = 'No user found for that email.';
+            showErrorToast('No user found for that email. Please check your email and try again.');
           } else if (e.code == 'wrong-password') {
             passwordError = 'Wrong password provided for that user.';
+            showErrorToast('Wrong password provided. Please check your password and try again.');
           } else {
             // Handle other errors
             print('Error: $e');
+            showErrorToast('An error occurred. Please try again later.');
           }
         }
       });
@@ -224,6 +240,17 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
     });
   }
 
+  void showErrorToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
   bool validate() {
     resetErrorText();
 
@@ -233,11 +260,13 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
       setState(() {
         emailError = 'Email is required';
       });
+      showErrorToast('Please enter your email');
       isValid = false;
     } else if (!isValidEmail(email)) {
       setState(() {
         emailError = 'Invalid email format';
       });
+      showErrorToast('Please enter a valid email address');
       isValid = false;
     }
 
@@ -245,11 +274,13 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
       setState(() {
         passwordError = 'Password is required';
       });
+      showErrorToast('Please enter a password');
       isValid = false;
     } else if (password.length < 6) {
       setState(() {
         passwordError = 'Password must be at least 6 characters long';
       });
+      showErrorToast('Password must be at least 6 characters long');
       isValid = false;
     }
 
@@ -257,11 +288,13 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
       setState(() {
         passwordError = 'Confirm Password is required';
       });
+      showErrorToast('Please confirm your password');
       isValid = false;
     } else if (password != confirmPassword) {
       setState(() {
         passwordError = 'Passwords do not match';
       });
+      showErrorToast('Passwords do not match. Please check and try again.');
       isValid = false;
     }
 
@@ -303,7 +336,13 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
         });
       } catch (error) {
         print('Error registering user: $error');
-        // Handle registration errors here (e.g., display error message to the user)
+        if (error is FirebaseAuthException) {
+          if (error.code == 'email-already-in-use') {
+            showErrorToast('The email is already in use. Please use a different email.');
+          } else {
+            showErrorToast('An error occurred. Please try again later.');
+          }
+        }
       } finally {
         setState(() {
           isLoading = false;
