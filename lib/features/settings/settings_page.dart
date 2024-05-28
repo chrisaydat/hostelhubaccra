@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_print
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_print, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -278,7 +278,7 @@ void _showSupportForm(BuildContext context) {
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 2,
                 backgroundColor: Colors.blue,
-                textColor: Colors.white,
+                textColor: const Color.fromARGB(255, 122, 106, 106),
                 fontSize: 16.0,
               );
             },

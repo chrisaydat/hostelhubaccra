@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, use_super_parameters, prefer_const_constructors
+// ignore_for_file: use_key_in_widget_constructors, use_super_parameters, prefer_const_constructors, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:hostelhubaccra/features/home/homescreen.dart';
