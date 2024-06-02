@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "497819046338",
+    "project_id": "hostel-hub-accra",
+    "storage_bucket": "hostel-hub-accra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497819046338:android:134705dc380c990d08065b",
+        "android_client_info": {
+          "package_name": "com.example.hostelhubaccra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm6abEWWJeiBdC19S7X8gPT7a3oA6oMQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497819046338:android:1cd0a954d1e7e74808065b",
+        "android_client_info": {
+          "package_name": "com.exmaple.hostel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm6abEWWJeiBdC19S7X8gPT7a3oA6oMQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBm6abEWWJeiBdC19S7X8gPT7a3oA6oMQs',
-    appId: '1:497819046338:android:134705dc380c990d08065b',
+    appId: '1:497819046338:android:1cd0a954d1e7e74808065b',
     messagingSenderId: '497819046338',
     projectId: 'hostel-hub-accra',
     storageBucket: 'hostel-hub-accra.appspot.com',
@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'hostel-hub-accra.appspot.com',
     iosBundleId: 'com.example.hostelhubaccra',
   );
+
 }

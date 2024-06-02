@@ -278,7 +278,7 @@ void _showSupportForm(BuildContext context) {
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 2,
                 backgroundColor: Colors.blue,
-                textColor: const Color.fromARGB(255, 122, 106, 106),
+                textColor: Colors.black,
                 fontSize: 16.0,
               );
             },

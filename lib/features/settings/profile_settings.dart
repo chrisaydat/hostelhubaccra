@@ -1,16 +1,18 @@
+// ignore_for_file: sort_child_properties_last, use_super_parameters
+
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 const String avatarImageUrl =
-    'https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1856&q=80';
+    'https://images.unsplash.com/photo-1716396502668-26f0087e1c7d?q=80&w=3735&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 const double kHorizontalPadding = 32;
 
-Profile dummyProfile =
-    Profile(); // Dummy profile. You'll want to bring in the real user's profile
+Profile dummyProfile = Profile();
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings({super.key});
@@ -25,6 +27,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   late TextEditingController _locationController;
   late TextEditingController _websiteController;
   late TextEditingController _bioController;
+  String? _profileImageUrl;
+  bool _isUploading = false;
 
   @override
   void initState() {
@@ -34,6 +38,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     _locationController = TextEditingController(text: dummyProfile.location);
     _websiteController = TextEditingController(text: dummyProfile.website);
     _bioController = TextEditingController(text: dummyProfile.bio);
+    _profileImageUrl = dummyProfile.profileImageUrl;
   }
 
   @override
@@ -54,21 +59,37 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         location: _locationController.text,
         website: _websiteController.text,
         bio: _bioController.text,
+        profileImageUrl: _profileImageUrl,
       );
     });
     Navigator.pop(context);
   }
 
-void _uploadImage() async {
-  final picker = ImagePicker();
-  final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+  void _uploadImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-  if (pickedImage != null) {
-    setState(() {
-      dummyProfile = dummyProfile.copyWith(profileImageUrl: pickedImage.path);
-    });
+    if (pickedImage != null) {
+      setState(() {
+        _isUploading = true;
+        _profileImageUrl = pickedImage.path;
+      });
+
+      // Simulate upload delay for demonstration purposes
+      await Future.delayed(const Duration(seconds: 2));
+
+      // Save the uploaded image to the device's file system
+      final directory = await getApplicationDocumentsDirectory();
+      final imagePath = '${directory.path}/profile_image.jpg';
+      final imageFile = File(pickedImage.path);
+      await imageFile.copy(imagePath);
+
+      setState(() {
+        _isUploading = false;
+        _profileImageUrl = imagePath; // Update with the new image path
+      });
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -81,9 +102,11 @@ void _uploadImage() async {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CupertinoButton(child: const Text('Cancel'), onPressed: () {
-              Navigator.pop(context);
-            }),
+            CupertinoButton(
+                child: const Text('Cancel'),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
             const Text(
               'Edit Profile',
               style: TextStyle(color: Colors.black, fontSize: 18),
@@ -104,9 +127,23 @@ void _uploadImage() async {
         padding: const EdgeInsets.symmetric(
             horizontal: kHorizontalPadding, vertical: 48),
         children: [
-          const Align(
-            child: ProfilePicture(
-              imageUrl: avatarImageUrl,
+          Align(
+            child: ClipOval(
+              child: _isUploading
+                  ? const CircularProgressIndicator()
+                  : _profileImageUrl != null
+                      ? Image.file(
+                          File(_profileImageUrl!),
+                          height: 172,
+                          width: 172,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.network(
+                          avatarImageUrl,
+                          height: 172,
+                          width: 172,
+                          fit: BoxFit.cover,
+                        ),
             ),
           ),
           const SizedBox(height: 4),
@@ -205,32 +242,6 @@ class ProfileInputField extends StatelessWidget {
           height: 32,
         ),
       ],
-    );
-  }
-}
-
-class ProfilePicture extends StatelessWidget {
-  const ProfilePicture({required this.imageUrl, this.radius = 172, Key? key})
-      : super(key: key);
-  final String? imageUrl;
-  final double radius;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipOval(
-      child: imageUrl != null
-          ? Image.file(
-              File(imageUrl!),
-              height: radius,
-              width: radius,
-              fit: BoxFit.cover,
-            )
-          : Image.network(
-              avatarImageUrl,
-              height: radius,
-              width: radius,
-              fit: BoxFit.cover,
-            ),
     );
   }
 }

@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: CircleAvatar(
                 backgroundColor: Colors.amber,
-                backgroundImage: AssetImage('assets/images/image.png'),
+                backgroundImage: AssetImage('assets/images/default-avatar-profile-icon-social-600nw-1677509740.jpg.webp'),
               ),
             ),
           ],
